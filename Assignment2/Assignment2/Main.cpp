@@ -49,19 +49,20 @@ void loadfile(string filename){
 	string read;
 	while(getline(openfile,read)){
 		string date = read.substr(0,8);
-		cout << date << " ";
 		file[date] = read.substr(9,read.size());
-		cout << file["22102012"] << endl;
 	}
 	openfile.close();
 }
 
 void set(string date){
-	setcache = date;
+	for(int i = 0;i<date.size();i++){ // ตัดช่องว่างออก
+		if(date[i] == ' ') date.erase(i,1);
+	}
+	setcache = date; // เอาวันที่ไปเก็บไว้
 }
 
 void show(){
-	// ��� setcache 22 october
+	// โชว์ setcache 22 october
 	cout << getDate(setcache) << endl;
 	cout << file[setcache].c_str() << endl;
 }
@@ -108,7 +109,47 @@ void executeCommand(EditorBuffer & buffer, string line) {
 	}
 }
 
-void selectCommand(string command, string data);
+void selectCommand(string command, string data){
+	for(int i = 0;i<command.size();i++){
+		command[i] = toupper(command[i]);
+	}
+	if(command == "LOAD"){
+		loadfile(data);
+	}
+	else if(command == "SET"){
+		cout << "one" << endl;
+		set(data);
+
+	}
+	else if(command == "SHOW"){
+		show();
+	}
+	else if(command == "EDIT"){
+		EditorBuffer buffer;
+		string content = getStringFromDate(setcache);
+		for (int i = 0; i < content.length(); i++) {
+			buffer.insertCharacter(content[i]);
+		}
+
+		buffer.showContents();
+
+		while(true){
+			cout << endl;
+			cout << "*";
+			string com;
+			cin >> com;
+			if(com[0] == 'Q')break;
+			executeCommand(buffer,com);
+			buffer.showContents();
+		}
+	}
+	else if(command == "SAVE"){
+		savefile();
+		cout << getDate(setcache) << endl;
+		cout << file[setcache] << endl;
+	}
+	else if(command == "QUIT")exit(0);
+}
 
 int main(){
 	string line;
@@ -129,48 +170,11 @@ int main(){
 					hasWS = true;
 					command = line.substr(0,i);
 					data = line.substr(i+1,line.length()-i);
+					break;
 				}
 			}
 		}
 
 		selectCommand(command,data);
 	}
-}
-
-void selectCommand(string command, string data){
-	if(command == "Load"){
-		loadfile(data);
-	}
-	else if(command == "Set"){
-		set(data);
-
-	}
-	else if(command == "Show"){
-		show();
-	}
-	else if(command == "Edit"){
-		EditorBuffer buffer;
-		string content = getStringFromDate(setcache);
-		for (int i = 0; i < content.length(); i++) {
-			buffer.insertCharacter(content[i]);
-		}
-
-		buffer.showContents();
-
-		while(true){
-			cout << endl;
-			cout << "*";
-			string com;
-			cin >> com;
-			if(com[0] == 'Q')break;
-			executeCommand(buffer,com);
-			buffer.showContents();
-		}
-	}
-	else if(command == "Save"){
-		savefile();
-		cout << getDate(setcache) << endl;
-		cout << file[setcache] << endl;
-	}
-	else if(command == "Quit")exit(0);
 }
