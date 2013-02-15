@@ -155,9 +155,9 @@ int main(){
 	string command = "";
 	string data = " ";
 	bool hasWS = false;
-
+	cout << "#";
 	while(true){
-		cout << "#";
+		if(command != "")cout << "#";
 		getline(cin,line);
 
 		if(line.length() <= 4){
