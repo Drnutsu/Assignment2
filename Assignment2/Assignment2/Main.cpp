@@ -96,7 +96,6 @@ void executeCommand(EditorBuffer & buffer, string line) {
 	case 'I': for (int i = 1; i < line.length(); i++) {
 		buffer.insertCharacter(line[i]);
 			  }
-			  file[setcache] = buffer.getContents();
 			  break;
 	case 'D': buffer.deleteCharacter(); break;
 	case 'F': buffer.moveCursorForward(); break;
@@ -154,7 +153,6 @@ void selectCommand(string command, string data){
 		for (int i = 0; i < content.length(); i++) {
 			buffer.insertCharacter(content[i]);
 		}
-
 		buffer.showContents();
 
 		while(true){
@@ -164,6 +162,7 @@ void selectCommand(string command, string data){
 			cin >> com;
 			if(com[0] == 'Q')break;
 			executeCommand(buffer,com);
+			file[setcache] = buffer.getContents();
 			buffer.showContents();
 		}
 	}
