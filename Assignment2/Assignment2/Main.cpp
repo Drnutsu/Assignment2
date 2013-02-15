@@ -116,7 +116,6 @@ void selectCommand(string command, string data){
 		loadfile(data);
 	}
 	else if(command == "SET"){
-		cout << "one" << endl;
 		set(data);
 
 	}
