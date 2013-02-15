@@ -159,7 +159,6 @@ int main(){
 	while(true){
 		if(command != "")cout << "#";
 		getline(cin,line);
-
 		if(line.length() <= 4){
 			command = line.substr(0,4);
 			data = " ";
