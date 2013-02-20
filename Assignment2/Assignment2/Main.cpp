@@ -65,6 +65,10 @@ void show(){
 	// โชว์ setcache 22 october
 	cout << getDate(setcache) << endl;
 	cout << file[setcache].c_str() << endl;
+	for(int i = 0 ;i<getStringFromDate(setcache).size()/2;i++){
+		cout << " ";
+	}
+	cout << "^" << endl;
 }
 
 void cachefile(){
@@ -128,6 +132,11 @@ void selectCommand(string command, string data){
 		for (int i = 0; i < content.length(); i++) {
 			buffer.insertCharacter(content[i]);
 		}
+		for(int i = 0 ;i<getStringFromDate(setcache).size()/2;i++){
+			buffer.moveCursorBackward();
+		}
+		buffer.moveCursorBackward();
+
 		buffer.showContents();
 
 		while(true){
